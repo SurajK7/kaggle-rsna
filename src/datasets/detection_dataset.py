@@ -14,10 +14,13 @@ from tqdm import tqdm
 import pydicom
 import pytorch_retinanet.dataloader
 import torch
-from .. config import CACHE_DIR, DATA_DIR, TRAIN_DIR
+print('--------------------------------------')
+cwd = os.getcwd()
+print(cwd)
+from config import CACHE_DIR, DATA_DIR, TRAIN_DIR
 from imgaug import augmenters as iaa
 from torch.utils.data import Dataset
-from .. utils.utils import TransformCfg, timeit_context
+from utils.utils import TransformCfg, timeit_context
 
 #sys.path.append("/home/user/rsna/progs/rsna/src")
 
@@ -44,7 +47,7 @@ class DetectionDataset(Dataset):
         self.crop_source = crop_source
         self.augmentation_level = augmentation_level
         self.categories = ["No Lung Opacity / Not Normal", "Normal", "Lung Opacity"]
-        samples = pd.read_csv(os.path.join(DATA_DIR, "stage_1_train_labels.csv"))
+        samples = pd.read_csv(os.path.join(DATA_DIR, "stage_2_train_labels.csv"))
         samples = samples.merge(pd.read_csv(os.path.join(DATA_DIR, "folds.csv")), on="patientId", how="left")
 
         if self.debug:
@@ -80,12 +83,13 @@ class DetectionDataset(Dataset):
 
     def get_image(self, patient_id):
         """Load a dicom image to an array"""
-        try:
-            dcm_data = pydicom.read_file(os.path.join(TRAIN_DIR, f"{patient_id}.dcm"))
-            img = dcm_data.pixel_array
-            return img
+        try:   
+           p = os.path.join(TRAIN_DIR, f"{patient_id}.dcm")
+           dcm_data = pydicom.read_file(p)
+           img = dcm_data.pixel_array
+           return img
         except:
-            pass
+           pass
 
     def num_classes(self):
         return 3
@@ -96,12 +100,15 @@ class DetectionDataset(Dataset):
     def __getitem__(self, idx):
         patient_id = self.patient_ids[idx]
         img = self.get_image(patient_id)
-
+        print('we got tilll jere')
+        print(type(img))
         if self.crop_source != 1024:
             img_source_w = self.crop_source
             img_source_h = self.crop_source
         else:
             img_source_h, img_source_w = img.shape[:2]
+        print(type(img))
+        print('till jwee')
         img_h, img_w = img.shape[:2]
 
         # set augmentation levels

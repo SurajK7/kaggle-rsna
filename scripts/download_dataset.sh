@@ -13,16 +13,11 @@ then
     echo "$(pwd) not empty!"
 else
     echo "$(pwd) is empty!"
-    pip install kaggle --upgrade
-    kaggle competitions download -c rsna-pneumonia-detection-challenge
+    wget --load-cookies /tmp/cookies.txt "https://docs.google.com/uc?export=download&confirm=$(wget --quiet --save-cookies /tmp/cookies.txt --keep-session-cookies --no-check-certificate 'https://docs.google.com/uc?export=download&id=12KPZ-ypaBlnOKCwAJpQhnEtwh8yirvZt' -O- | sed -rn 's/.*confirm=([0-9A-Za-z_]+).*/\1\n/p')&id=12KPZ-ypaBlnOKCwAJpQhnEtwh8yirvZt" -O rsna-pneumonia-detection-challenge.zip && rm -rf /tmp/cookies.txt
     unzip rsna-pneumonia-detection-challenge.zip
-    mkdir train
-    mkdir test
-    unzip stage_2_train_images.zip -d train
-    unzip stage_2_test_images.zip -d test
+    mv stage_2_train_images train
+    mv stage_2_test_images test
     rm rsna-pneumonia-detection-challenge.zip
-    rm stage_2_train_images.zip
-    rm stage_2_test_images.zip
 fi
 
 cd $CUR_DIR

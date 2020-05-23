@@ -39,7 +39,7 @@ from utils.my_utils import set_seed
 
 import warnings
 warnings.filterwarnings('ignore')
-os.environ["CUDA_VISIBLE_DEVICES"] = '1'
+os.environ["CUDA_VISIBLE_DEVICES"] = '0'
 
 model_configs = MODELS.keys()
 

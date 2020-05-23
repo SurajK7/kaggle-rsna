@@ -77,7 +77,7 @@ def chunks(l: list, n: int):
             yield l[i : i + n]
 
 
-def get_image_crop(full_rgb: np.array, rect: , scale_rect_x: float=1.0, scale_rect_y: float=1.0, shift_x_ratio: float=0.0, shift_y_ratio: float=0.0, angle: float=0.0, out_size: int=299) -> np.array:
+def get_image_crop(full_rgb: np.array, rect , scale_rect_x: float=1.0, scale_rect_y: float=1.0, shift_x_ratio: float=0.0, shift_y_ratio: float=0.0, angle: float=0.0, out_size: int=299) -> np.array:
     center_x = rect.x + rect.w / 2
     center_y = rect.y + rect.h / 2
     size = int(max(rect.w, rect.h))
