@@ -14,9 +14,6 @@ from tqdm import tqdm
 import pydicom
 import pytorch_retinanet.dataloader
 import torch
-print('--------------------------------------')
-cwd = os.getcwd()
-print(cwd)
 from config import CACHE_DIR, DATA_DIR, TRAIN_DIR
 from imgaug import augmenters as iaa
 from torch.utils.data import Dataset
@@ -100,15 +97,11 @@ class DetectionDataset(Dataset):
     def __getitem__(self, idx):
         patient_id = self.patient_ids[idx]
         img = self.get_image(patient_id)
-        print('we got tilll jere')
-        print(type(img))
         if self.crop_source != 1024:
             img_source_w = self.crop_source
             img_source_h = self.crop_source
         else:
             img_source_h, img_source_w = img.shape[:2]
-        print(type(img))
-        print('till jwee')
         img_h, img_w = img.shape[:2]
 
         # set augmentation levels
