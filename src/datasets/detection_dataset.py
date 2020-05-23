@@ -54,12 +54,13 @@ class DetectionDataset(Dataset):
             self.samples = samples[samples.fold != fold]
         else:
             self.samples = samples[samples.fold == fold]
-
+        
+        self.samples = self.samples.drop(self.samples[(self.samples['class'] != "No Lung Opacity / Not Normal") & (self.samples['class'] != "Normal") & (self.samples['class'] != "Lung Opacity")].index)
         self.patient_ids = list(sorted(self.samples.patientId.unique()))
         self.patient_categories = {}
         self.annotations = defaultdict(list)
         # add annotation points for rotation
-        for _, row in self.samples.iterrows():
+        for _, row in self.samples.iterrows():       
             patient_id = row["patientId"]
             self.patient_categories[patient_id] = self.categories.index(row["class"])
             if row["Target"] > 0:
